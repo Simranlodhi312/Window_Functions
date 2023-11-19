@@ -1,0 +1,44 @@
+window function
+
+select max(SAL) as max_salary from emp group by deptno
+select deptno,max(SAL) as max_salary from emp group by deptno
+select deptno,max(SAL) over(partition by deptno) as max_salary from emp
+select deptno,max(SAL) as max_salary from emp group by deptno
+select e.*,max(SAL) over(partition by deptno) as max from emp e
+
+
+select e.*,  
+rank() over(partition by deptno order by deptno) as rn  
+from emp e
+
+select e.*,  
+rank over(partition by deptno order by deptno) as rn  
+from emp e
+
+select e.*,  
+dense_rank() over (partition by deptno order by deptno) as rn  
+from emp e
+
+--lead & lag
+select e.*,
+lag(sal) over (partition by deptno order by deptno) as function_lag
+from emp e
+
+
+select e.*,
+lead(sal) over (partition by deptno order by deptno) as function_lag
+from emp e
+
+
+
+select e.*,
+last_value(ename)
+over  (partition by deptno order by sal desc
+      range between unbounded preceding and unbounded following) as least_exp_ename
+from emp e;
+
+
+select e.*,
+first_value(ename)
+over  (partition by deptno order by sal desc) as most_exp_ename
+from emp e;
